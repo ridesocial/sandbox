@@ -1,0 +1,15 @@
+[submodule "vagrant"]
+	path = vagrant
+	url = https://github.com/ridesocial/vagrant.git
+[submodule "user-bundle"]
+        path = src/RideSocial/Bundle/UserBundle
+        url = http://github.com/ridesocial/UserBundle.git
+[submodule "event-bundle"]
+        path = src/RideSocial/Bundle/EventBundle
+        url = http://github.com/ridesocial/EventBundle.git
+[submodule "core-bundle"]
+        path = src/RideSocial/Bundle/CoreBundle
+        url = http://github.com/ridesocial/CoreBundle.git
+[submodule "vehicle-bundle"]
+        path = src/RideSocial/Bundle/VehicleBundle
+        url = http://github.com/ridesocial/VehicleBundle.git
