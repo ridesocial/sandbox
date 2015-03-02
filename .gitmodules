@@ -16,3 +16,4 @@
 [submodule "location-bundle"]
         path = src/RideSocial/Bundle/LocationBundle
         url = http://github.com/ridesocial/LocationBundle.git
+
