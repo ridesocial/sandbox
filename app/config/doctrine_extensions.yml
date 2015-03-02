@@ -1,7 +1,7 @@
 services:
     # KernelRequest listener
     extension.listener:
-        class: RideSocial\UtilityBundle\Listener\DoctrineExtensionListener
+        class: RideSocial\Bundle\CoreBundle\Listener\DoctrineExtensionListener
         calls:
             - [ setContainer, [ @service_container ] ]
         tags:

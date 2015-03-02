@@ -1,32 +1,39 @@
-ride_social_vehicle:
-    resource: "@RideSocialVehicleBundle/Controller/"
-    type:     annotation
+ride_social_location:
+    resource: "@RideSocialLocationBundle/Resources/config/routing.yml"
     prefix:   /
 
-RideSocialUserBundle:
-    resource: "@RideSocialUserBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
+ridesocial_vehicle:
+    resource: "@RideSocialVehicleBundle/Resources/config/routing/vehicle.yml"
+ridesocial_event:
+    resource: "@RideSocialEventBundle/Resources/config/routing/event.yml"
+ridesocial_driver:
+    resource: "@RideSocialEventBundle/Resources/config/routing/driver.yml"
+ridesocial_passenger:
+    resource: "@RideSocialEventBundle/Resources/config/routing/passenger.yml"
+ridesocial_user:
+    resource: "@RideSocialUserBundle/Resources/config/routing/user.yml"
+    
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
-
 fos_user_profile:
     resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
     prefix: /profile
-
 fos_user_register:
     resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
     prefix: /register
-
 fos_user_resetting:
     resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
     prefix: /resetting
-
 fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
-    prefix: /profile
-    
+    prefix: /profile/change-password
+
 homepage:
     pattern: /
-    defaults: { _controller: RideSocialEventBundle:Event:index }    
+    defaults: { _controller: RideSocialCoreBundle:Homepage:index }
+about:
+    pattern: /about
+    defaults: { _controller: RideSocialCoreBundle:Homepage:about }
+contact:
+    pattern: /contact
+    defaults: { _controller: RideSocialCoreBundle:Homepage:contact }   

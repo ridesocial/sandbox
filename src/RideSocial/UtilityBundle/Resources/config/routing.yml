@@ -1,3 +1,0 @@
-ridesocial_utility_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: RideSocialUtilityBundle:Default:index }

@@ -41,3 +41,11 @@ services:
         scope: request
         tags:
             - { name: knp_menu.menu, alias: datatable_controls }
+################################################################################
+## Sylius
+################################################################################
+#    sylius.translatable.listener:
+#        class: %sylius.translatable.listener.class%
+#        arguments: [ "%sylius.translation.default.mapping%", "%locale%" ]
+#        tags:
+#            - { name: doctrine.event_subscriber, connection: default, priority: 99 }

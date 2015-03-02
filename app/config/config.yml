@@ -1,15 +1,13 @@
 imports:
-    - { resource: parameters.ini }
+    - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: doctrine_extensions.yml }
     - { resource: services.yml }
-#    - { resource: menu.yml }
 
 #####################################################################################
 ## Framwork Configuration
 #####################################################################################
 framework:
-    #esi:             ~
     translator:      ~
     secret:          %secret%
     router:
@@ -20,7 +18,6 @@ framework:
     validation:      { enable_annotations: true }
     templating:
         engines: ['twig']
-        #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
     trusted_proxies: ~
     session:         ~
@@ -34,7 +31,6 @@ twig:
     strict_variables: %kernel.debug%
     form:
         resources: ~
-#            - "BcBootstrapBundle:Form:form_div_layout.html.twig"
 
 #####################################################################################
 ## Assetic Configuration
@@ -42,20 +38,19 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        [ ]
-    #java: /usr/bin/java
     filters:
+        lessphp:
+            file: %kernel.root_dir%/../vendor/leafo/lessphp/lessc.inc.php
+            apply_to: "\.less$"
+        less: ~
         cssrewrite: ~
-        less:
-            node: /usr/bin/nodejs
-            node_paths: [ /usr/local/lib/node_modules/ ]
-            apply_to:   "\.less$"
     assets:
         bootstrap_css:
             inputs:
-                - %kernel.root_dir%/../src/RideSocial/UserBundle/Resources/public/less/build.less
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/less/bootstrap.less
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/less/responsive.less
             filters:
-                - less
+                - lessphp
                 - cssrewrite
             output: css/bootstrap.css
         bootstrap_js:
@@ -73,11 +68,19 @@ assetic:
                 - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-tab.js
                 - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-typeahead.js
                 - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-affix.js
-            output: bundles/ridesocialutility/js/bootstrap.js
+            output: js/bootstrap.js
         jquery:
             inputs:
-                - %kernel.root_dir%/../vendor/jquery/jquery/jquery-1.9.1.js
-            output: bundles/ridesocialutility/js/jquery.js
+                - %kernel.root_dir%/../vendor/jquery/jquery/jquery-2.1.1.min.js
+            output: js/jquery.js
+        jquery_ui:
+                inputs:
+                - "@jquery"
+        bootstrap:
+            inputs:
+                - "@jquery"
+                - "@bootstrap_css"
+                - "@bootstrap_js"
 
 #####################################################################################
 ## Doctrine Configuration
@@ -91,10 +94,6 @@ doctrine:
         user:     %database_user%
         password: %database_password%
         charset:  UTF8
-        # if using pdo_sqlite as your database driver, add the path in parameters.yml
-        # e.g. database_path: %kernel.root_dir%/data/data.db3
-        # path:     %database_path%
-
     orm:
         auto_generate_proxy_classes: %kernel.debug%
         entity_managers:
@@ -155,12 +154,6 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: RideSocial\UserBundle\Entity\User
-#fos_facebook:
-#  alias:  facebook
-#  app_id: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-#  secret: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-#  cookie: true
-#  permissions: [email, user_birthday, user_location]
 
 ################################################################################
 ## JMS Configuration
@@ -182,11 +175,88 @@ jms_aop:
 ################################################################################
 knp_menu:
     twig: # false
-        template: RideSocialUtilityBundle:Menu:layout.html.twig
+        template: RideSocialResourceBundle:Menu:layout.html.twig
     default_renderer: twig
+
+################################################################################
+## IMAGINE Configuration
+################################################################################
+liip_imagine:
+    filter_sets:
+        carousel_sm:
+            filters:
+                thumbnail: { size: [940, 400], mode: outbound }
+        carousel_lg:
+            filters:
+                thumbnail: { size: [1170, 400], mode: outbound }
 
 ###############################################################################
 ## PAGERFANTA Configuration
 ###############################################################################
 white_october_pagerfanta:
     default_view: twitter_bootstrap
+
+white_october_breadcrumbs:
+    separator: '<i class="fa fa-long-arrow-right"></i>'
+
+################################################################################
+## SYLIUS Configuration
+################################################################################
+sylius_resource:
+    resources:
+        # Event
+        ridesocial.event:
+            driver: doctrine/orm
+            classes:
+                model: RideSocial\Bundle\EventBundle\Entity\Event
+                controller: RideSocial\Bundle\EventBundle\Controller\EventController
+                repository: RideSocial\Bundle\EventBundle\Repository\EventRepository
+        # Driver
+        ridesocial.driver:
+            driver: doctrine/orm
+            classes:
+                model: RideSocial\Bundle\EventBundle\Entity\Driver
+                controller: RideSocial\Bundle\EventBundle\Controller\DriverController
+                repository: RideSocial\Bundle\EventBundle\Repository\DriverRepository
+        # Passenger
+        ridesocial.passenger:
+            driver: doctrine/orm
+            classes:
+                model: RideSocial\Bundle\EventBundle\Entity\Passenger
+                controller: RideSocial\Bundle\EventBundle\Controller\PassengerController
+                repository: RideSocial\Bundle\EventBundle\Repository\PassengerRepository
+        # Make
+        ridesocial.make:
+            driver: doctrine/orm
+            classes:
+                model: RideSocial\Bundle\VehicleBundle\Entity\Make
+                controller: RideSocial\Bundle\VehicleBundle\Controller\MakeController
+                repository: RideSocial\Bundle\VehicleBundle\Repository\MakeRepository
+        # Model
+        ridesocial.model:
+            driver: doctrine/orm
+            classes:
+                model: RideSocial\Bundle\VehicleBundle\Entity\Model
+                controller: RideSocial\Bundle\VehicleBundle\Controller\ModelController
+                repository: RideSocial\Bundle\VehicleBundle\Repository\ModelRepository
+        # Style
+        ridesocial.style:
+            driver: doctrine/orm
+            classes:
+                model: RideSocial\Bundle\VehicleBundle\Entity\Style
+                controller: RideSocial\Bundle\VehicleBundle\Controller\StyleController
+                repository: RideSocial\Bundle\VehicleBundle\Repository\StyleRepository
+        # Vehicle
+        ridesocial.vehicle:
+            driver: doctrine/orm
+            classes:
+                model: RideSocial\Bundle\VehicleBundle\Entity\Vehicle
+                controller: RideSocial\Bundle\VehicleBundle\Controller\VehicleController
+                repository: RideSocial\Bundle\VehicleBundle\Repository\VehicleRepository
+        # User
+        ridesocial.user:
+            driver: doctrine/orm
+            classes:
+                model: RideSocial\Bundle\UserBundle\Entity\User
+                controller: RideSocial\Bundle\UserBundle\Controller\UserController
+                repository: RideSocial\Bundle\UserBundle\Repository\UserRepository

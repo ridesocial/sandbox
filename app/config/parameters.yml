@@ -1,0 +1,19 @@
+parameters:
+    database_driver   : pdo_mysql
+    database_host     : localhost
+    database_port     :
+    database_name     : ridesocial
+    database_user     : ner0tic
+    database_password : g4t0rade
+
+    mailer_transport  : smtp
+    mailer_host       : localhost
+    mailer_user       :
+    mailer_password   :
+
+    locale            : en
+
+    secret            : f7y5uP3rm4n
+
+    sylius.translation.mapping: %sylius.translation.default.mapping%
+    sylius.locale: %locale%
